@@ -1,8 +1,8 @@
-mod keyboard;
-mod mouse;
+mod keyboard_controller; // Updated to reflect new file structure
+mod mouse_controller; // Updated to reflect new file structure
 
-pub use keyboard::*;
-pub use mouse::*;
+pub use keyboard_controller::*; // Updated to reflect new file structure
+pub use mouse_controller::*; // Updated to reflect new file structure
 use bevy::prelude::*;
 use crate::player::types::*;
 
@@ -10,7 +10,7 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(Camera2d);
     commands.spawn((
         Name::new("Player"),
-        Sprite::from_image(asset_server.load("branding/icon.png")),
+        Sprite::from_image(asset_server.load("textures/skin/skin.png")),
         Transform::from_scale(Vec3::splat(0.3)),
         AccumulatedInput::default(),
         Velocity::default(),

@@ -1,14 +1,19 @@
 mod game_state;
 mod settings;
+mod utils; // Added utils module for better organization
 
 pub use game_state::*;
 pub use settings::*;
+pub use utils::*; // Exporting utils module
 
 use sysx::io::fs::BFile;
 use bevy::prelude::*;
 use sysx::{SysxError, Result};
 use serde::{Serialize, de::DeserializeOwned};
 use std::path::Path;
+
+// Importing utility functions
+// Removed the import of load_settings from utils as it is defined in mod.rs
 
 /// Core plugin handling game state and settings
 pub struct CorePlugin;

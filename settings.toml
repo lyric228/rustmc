@@ -1,0 +1,28 @@
+[graphics]
+resolution = [
+    1920,
+    1080,
+]
+vsync = true
+fps_limit = 60
+render_distance = 16
+
+[audio]
+master_volume = 1.0
+music_volume = 0.800000011920929
+effects_volume = 0.8999999761581421
+
+[controls]
+mouse_sensitivity = 1.0
+movement_speed = 5.0
+
+[controls.key_bindings]
+move_forward = "KeyW"
+move_backward = "KeyS"
+move_left = "KeyA"
+move_right = "KeyD"
+jump = "Space"
+sprint = "ShiftLeft"
+sneak = "ControlLeft"
+inventory = "Tab"
+drop = "KeyQ"

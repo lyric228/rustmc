@@ -17,7 +17,7 @@ fn main() {
                 ..default()
             }),
             core::CorePlugin,
-            // world::WorldPlugin,
+            world::WorldPlugin,
             player::PlayerPlugin,
             // ui::UiPlugin,
         ))
