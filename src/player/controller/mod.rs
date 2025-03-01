@@ -17,6 +17,7 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
         PhysicalTranslation::default(),
         PreviousPhysicalTranslation::default(),
     ));
+    
 }
 
 pub fn spawn_text(mut commands: Commands) {
