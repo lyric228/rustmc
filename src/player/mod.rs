@@ -23,6 +23,7 @@ impl Plugin for PlayerPlugin { // Implementing the PlayerPlugin
     }
 }
 
+
 #[derive(Component)]
 pub struct Player {
     pub movement_speed: f32,

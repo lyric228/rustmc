@@ -1,47 +1,82 @@
 use bevy::prelude::*;
 
+#[derive(Debug, Clone, Component)]
+pub struct VisualParams {
+    pub texture: String,
+    pub color: Color,
+}
+
 #[derive(Component)]
 pub struct Block {
     pub name: String,
     pub tag: String,
-    pub position: Vec3,
-    pub durability: f32,
-    pub visual_params: VisualParams,
-    pub collision: bool, 
+    pub collision: bool,
 }
 
+#[derive(Bundle)]
+pub struct BlockBundle {
+    pub block: Block,
+    pub visual: VisualParams,
+    pub transform: Transform,
+    pub global_transform: GlobalTransform,
+}
 
-impl Block {
-    pub fn new(commands: &mut Commands, name: String, tag: String, position: Vec3, durability: f32, visual_params: VisualParams, collision: bool) {
-        commands.spawn(Block {
+impl BlockBundle {
+    pub fn new(
+        name: impl Into<String>,
+        tag: impl Into<String>,
+        position: Vec3,
+        visual_params: VisualParams,
+        collision: bool,
+    ) -> Self {
+        Self {
+            block: Block {
+                name: name.into(),
+                tag: tag.into(),
+                collision,
+            },
+            visual: visual_params,
+            transform: Transform::from_translation(position),
+            global_transform: GlobalTransform::default(),
+        }
+    }
+}
+
+pub struct BlockPlugin;
+
+impl Plugin for BlockPlugin {
+    fn build(&self, app: &mut App) {}
+}
+
+pub mod block_helpers {
+    use super::*;
+
+    pub fn spawn_block(
+        commands: &mut Commands,
+        name: impl Into<String>,
+        tag: impl Into<String>,
+        position: Vec3,
+        visual_params: VisualParams,
+        collision: bool,
+    ) -> Entity {
+        commands.spawn(BlockBundle::new(
             name,
             tag,
             position,
-            durability,
             visual_params,
             collision,
-        });
+        )).id()
     }
 
-    pub fn delete(commands: &mut Commands, entity: Entity) {
-        commands.entity(entity).despawn();
+    pub fn delete_block(commands: &mut Commands, entity: Entity) {
+        commands.entity(entity).despawn_recursive();
     }
 
-    pub fn set_position(&mut self, new_position: Vec3) {
-        self.position = new_position;
+    pub fn set_block_position(
+        commands: &mut Commands,
+        entity: Entity,
+        new_position: Vec3,
+    ) {
+        commands.entity(entity).insert(Transform::from_translation(new_position));
     }
-
-    pub fn set_durability(&mut self, new_durability: f32) {
-        self.durability = new_durability;
-    }
-
-    pub fn set_visual_params(&mut self, new_visual_params: VisualParams) {
-        self.visual_params = new_visual_params;
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct VisualParams {
-    pub texture: String,
-    pub color: Color,
 }
