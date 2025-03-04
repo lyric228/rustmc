@@ -1,20 +1,23 @@
-pub mod controller; // Player control logic
-pub mod camera; // Camera management
-pub mod types; // Player-related types
+pub mod controller;
+pub mod camera; 
+pub mod types;
 
-use crate::player::controller::*; // Importing player control systems
-use crate::player::types::*; // Importing player-related types
+use crate::player::controller::*;
+use crate::player::types::*;
 use bevy::prelude::*;
 
-pub struct PlayerPlugin; // Plugin for managing player systems
+pub struct PlayerPlugin;
 
-impl Plugin for PlayerPlugin { // Implementing the PlayerPlugin
+impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
-            .add_systems(Startup, (spawn_text, spawn_player))
+            .add_systems(Startup, (
+                spawn_text,
+                spawn_player,
+            ))
             .add_systems(Update, ( 
-                controller::mouse_click_system, // Added mouse click system
-                controller::mouse_move_system,   // Added mouse move system
+                controller::mouse_click_system,
+                controller::mouse_move_system,
                 controller::grab_mouse,
                 controller::kb_input_events,
                 controller::mouse_click_system,

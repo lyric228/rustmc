@@ -24,14 +24,14 @@ fn generate_blocks(mut commands: Commands) {
 
     for position in block_positions {
         let visual = VisualParams {
-            texture: "block/stone.png".to_string(),
-                color: Color::WHITE,
+            texture: "textures/block/cobblestone.png".to_string(),
+            color: Color::WHITE,
         };
 
         let entity = block_helpers::spawn_block(
             &mut commands,
-            "Basic Block",
-            "block",
+            "Cobblestone",
+            "cobblestone",
             position,
             visual,
             true,
