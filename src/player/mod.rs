@@ -12,7 +12,9 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_systems(Startup, (
-                spawn_text,
+                |commands: Commands, asset_server: Res<AssetServer>| {
+                    spawn_text_default(commands, asset_server, 25.0, "текст");
+                },
                 spawn_player,
             ))
             .add_systems(Update, ( 
@@ -20,8 +22,6 @@ impl Plugin for PlayerPlugin {
                 controller::mouse_move_system,
                 controller::grab_mouse,
                 controller::kb_input_events,
-                controller::mouse_click_system,
-                controller::mouse_move_system,
             ));
     }
 }

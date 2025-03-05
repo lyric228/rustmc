@@ -5,17 +5,22 @@ mod world;
 mod player;
 mod ui;
 
+const RESOLUTION: (f32, f32) = (
+    1280.,
+    720.,
+);
+
 fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "RustMC".into(),
-                    resolution: (1280., 720.).into(),
+                    resolution: RESOLUTION.into(),
                     ..default()
                 }),
                 ..default()
-            }),
+            }).set(ImagePlugin::default_nearest()),
             core::CorePlugin,
             world::WorldPlugin,
             player::PlayerPlugin,

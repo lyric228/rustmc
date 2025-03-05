@@ -7,7 +7,7 @@ pub const VIEW_MODEL_RENDER_LAYER: usize = 1;
 pub struct Player;
 
 #[derive(Debug, Component, Deref, DerefMut)]
-pub struct CameraSensitivity(Vec2);
+pub struct CameraSensitivity(pub Vec2);
 
 impl Default for CameraSensitivity {
     fn default() -> Self {
@@ -21,13 +21,13 @@ impl Default for CameraSensitivity {
 pub struct WorldModelCamera;
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-pub struct AccumulatedInput(Vec2);
+pub struct AccumulatedInput(pub Vec2);
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-pub struct Velocity(Vec3);
+pub struct Velocity(pub Vec3);
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-pub struct PhysicalTranslation(Vec3);
+pub struct PhysicalTranslation(pub Vec3);
 
 #[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-pub struct PreviousPhysicalTranslation(Vec3);
+pub struct PreviousPhysicalTranslation(pub Vec3);

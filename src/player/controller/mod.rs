@@ -7,36 +7,56 @@ use bevy::prelude::*;
 use crate::player::types::*;
 
 pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn((
-        Camera3d::default(),
-        Transform::from_xyz(0.0, 1.5, 2.0).looking_at(Vec3::new(0.0, 0.0, -2.0), Vec3::Y),
-    ));
+    let player = commands.spawn((
+        Name::new("Player"),
+        Sprite::from_image(asset_server.load("skins/default.png")),
+        Transform::from_scale(Vec3::from_array([1.0, 2.0, 1.0])),
+        AccumulatedInput::default(),
+        Velocity::default(),
+        PhysicalTranslation::default(),
+        PreviousPhysicalTranslation::default(),
+    )).id();
+
+    commands.entity(player).with_children(|parent| {
+        parent.spawn((
+            Camera3d::default(),
+            Transform::from_xyz(0.0, 2.0, 2.0)
+                .looking_at(Vec3::new(0.0, 0.0, -2.0), Vec3::Y),
+        ));
+    });
 
     commands.spawn((
         DirectionalLight {
             shadows_enabled: true,
             illuminance: 10000.0,
-                ..default()
-            },
-        Transform::from_xyz(4.0, 8.0, 4.0).looking_at(Vec3::ZERO, Vec3::Y),
-            ));
-
-    commands.spawn((
-        Name::new("Player"),
-        Sprite::from_image(asset_server.load("textures/skin/skin.png")),
-        Transform::from_scale(Vec3::splat(0.3)),
-        AccumulatedInput::default(),
-        Velocity::default(),
-        PhysicalTranslation::default(),
-        PreviousPhysicalTranslation::default(),
+            ..default()
+        },
+        Transform::from_xyz(4.0, 8.0, 4.0)
+            .looking_at(Vec3::ZERO, Vec3::Y),
     ));
 }
 
-pub fn spawn_text(
+pub fn spawn_text<'a>(
     mut commands: Commands,
+    node: impl Into<Node>,
+    text_bundle: impl Bundle,
+) -> Entity {
+    commands.spawn(node.into())
+        .with_children(
+            |parent| {
+                parent.spawn(text_bundle);
+            }
+    ).id()
+}
+
+pub fn spawn_text_default(
+    commands: Commands,
     asset_server: Res<AssetServer>,
-) {
-    commands.spawn(
+    size: f32,
+    text: impl Into<String>,
+) -> Entity {
+    spawn_text(
+        commands,
         Node {
             width: Val::Percent(100.0),
             height: Val::Percent(100.0),
@@ -45,17 +65,15 @@ pub fn spawn_text(
             align_items: AlignItems::FlexEnd,
             padding: UiRect::all(Val::Px(10.0)),
             ..default()
-        }).with_children(|parent| {
-            parent.spawn((
-                Text::new("Move the player with WASD"),
-                TextFont {
-                    font: asset_server.load("fonts/noto_serif.ttf"),
-                    font_size: 25.0,
-                    ..Default::default()
-                },
-            ));
-        }
-    );
+        }, (
+            Text::new(text),
+            TextFont {
+                font: asset_server.load("fonts/noto_serif.ttf"),
+                font_size: size,
+                ..Default::default()
+            }
+        )
+    )
 }
 
 pub fn handle_input(
@@ -80,7 +98,6 @@ pub fn handle_input(
             input.x += 1.0;
         }
 
-        velocity.x = input.x.clamp(-1.0, 1.0) * SPEED;
-        velocity.y = input.y.clamp(-1.0, 1.0) * SPEED;
+        velocity.0 = input.extend(0.0).normalize_or_zero() * SPEED;
     }
 }
