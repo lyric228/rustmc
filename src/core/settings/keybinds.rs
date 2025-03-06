@@ -1,6 +1,6 @@
-use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use bevy::input::keyboard::NativeKeyCode;
 use bevy::prelude::*;
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::fmt;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,7 +43,7 @@ impl Default for KeyBindings {
 
 mod key_code_serde {
     use super::*;
-    
+
     pub fn serialize<S>(key: &KeyCode, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -71,7 +71,7 @@ mod key_code_serde {
                 Ok(value.to_owned())
             }
         }
-        
+
         let s = deserializer.deserialize_str(KeyCodeVisitor)?;
         parse_keycode(&s).map_err(serde::de::Error::custom)
     }
@@ -80,7 +80,7 @@ mod key_code_serde {
 // Вместо реализации FromStr для KeyCode создаем свою функцию парсинга
 fn parse_keycode(s: &str) -> Result<KeyCode, String> {
     use KeyCode::*;
-    
+
     match s {
         // Основные клавиши
         "Unidentified" => Ok(Unidentified(NativeKeyCode::Unidentified)),
@@ -103,7 +103,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "IntlBackslash" => Ok(IntlBackslash),
         "IntlRo" => Ok(IntlRo),
         "IntlYen" => Ok(IntlYen),
-        
+
         // Буквенные клавиши
         "KeyA" => Ok(KeyA),
         "KeyB" => Ok(KeyB),
@@ -131,7 +131,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "KeyX" => Ok(KeyX),
         "KeyY" => Ok(KeyY),
         "KeyZ" => Ok(KeyZ),
-        
+
         // Символы и модификаторы
         "Minus" => Ok(Minus),
         "Period" => Ok(Period),
@@ -152,7 +152,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "ShiftRight" => Ok(ShiftRight),
         "Space" => Ok(Space),
         "Tab" => Ok(Tab),
-        
+
         // Специальные клавиши
         "Convert" => Ok(Convert),
         "KanaMode" => Ok(KanaMode),
@@ -162,7 +162,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "Lang4" => Ok(Lang4),
         "Lang5" => Ok(Lang5),
         "NonConvert" => Ok(NonConvert),
-        
+
         // Навигационные клавиши
         "Delete" => Ok(Delete),
         "End" => Ok(End),
@@ -171,13 +171,13 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "Insert" => Ok(Insert),
         "PageDown" => Ok(PageDown),
         "PageUp" => Ok(PageUp),
-        
+
         // Стрелки
         "ArrowDown" => Ok(ArrowDown),
         "ArrowLeft" => Ok(ArrowLeft),
         "ArrowRight" => Ok(ArrowRight),
         "ArrowUp" => Ok(ArrowUp),
-        
+
         // NumLock и Numpad
         "NumLock" => Ok(NumLock),
         "Numpad0" => Ok(Numpad0),
@@ -210,7 +210,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "NumpadParenRight" => Ok(NumpadParenRight),
         "NumpadStar" => Ok(NumpadStar),
         "NumpadSubtract" => Ok(NumpadSubtract),
-        
+
         // Функциональные клавиши
         "Escape" => Ok(Escape),
         "Fn" => Ok(Fn),
@@ -218,7 +218,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "PrintScreen" => Ok(PrintScreen),
         "ScrollLock" => Ok(ScrollLock),
         "Pause" => Ok(Pause),
-        
+
         // Мультимедийные клавиши
         "BrowserBack" => Ok(BrowserBack),
         "BrowserFavorites" => Ok(BrowserFavorites),
@@ -242,7 +242,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "AudioVolumeMute" => Ok(AudioVolumeMute),
         "AudioVolumeUp" => Ok(AudioVolumeUp),
         "WakeUp" => Ok(WakeUp),
-        
+
         // Легаси и специальные
         "Meta" => Ok(Meta),
         "Hyper" => Ok(Hyper),
@@ -261,7 +261,7 @@ fn parse_keycode(s: &str) -> Result<KeyCode, String> {
         "Undo" => Ok(Undo),
         "Hiragana" => Ok(Hiragana),
         "Katakana" => Ok(Katakana),
-        
+
         // Функциональные клавиши F1-F35
         "F1" => Ok(F1),
         "F2" => Ok(F2),

@@ -1,6 +1,5 @@
-use bevy::prelude::*;
 use super::Player;
-
+use bevy::prelude::*;
 
 pub fn spawn_camera(mut commands: Commands) {
     // commands.spawn((
@@ -11,7 +10,3 @@ pub fn spawn_camera(mut commands: Commands) {
     //     }
     // ));
 }
-
-
-
-

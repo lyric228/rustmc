@@ -1,33 +1,34 @@
 use bevy::prelude::*;
 
-pub const DEFAULT_RENDER_LAYER: usize = 0;
-pub const VIEW_MODEL_RENDER_LAYER: usize = 1;
-
-#[derive(Debug, Component)]
+#[derive(Component)]
 pub struct Player;
 
-#[derive(Debug, Component, Deref, DerefMut)]
-pub struct CameraSensitivity(pub Vec2);
-
-impl Default for CameraSensitivity {
-    fn default() -> Self {
-        Self(  
-            Vec2::new(0.003, 0.002),
-        )
-    }
-}
-
-#[derive(Debug, Component)]
+#[derive(Component)]
 pub struct WorldModelCamera;
 
-#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
-pub struct AccumulatedInput(pub Vec2);
+#[derive(Component, Default)]
+pub struct AccumulatedInput {
+    pub x: f32,
+    pub y: f32,
+}
 
-#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
+#[derive(Component, Default)]
 pub struct Velocity(pub Vec3);
 
-#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
+#[derive(Component, Default)]
 pub struct PhysicalTranslation(pub Vec3);
 
-#[derive(Debug, Component, Clone, Copy, PartialEq, Default, Deref, DerefMut)]
+#[derive(Component, Default)]
 pub struct PreviousPhysicalTranslation(pub Vec3);
+
+#[derive(Component, Default)]
+pub struct CameraSensitivity {
+    pub value: f32,
+}
+
+// Новый компонент для поворота головы
+#[derive(Component, Default, Debug)]
+pub struct PlayerLook {
+    pub yaw: f32,   // Поворот по горизонтали (в радианах)
+    pub pitch: f32, // Наклон по вертикали (в радианах)
+}

@@ -1,5 +1,5 @@
-mod chunk;
 mod block;
+mod chunk;
 mod generation;
 use bevy::prelude::*;
 
@@ -7,8 +7,7 @@ pub struct WorldPlugin;
 
 impl Plugin for WorldPlugin {
     fn build(&self, app: &mut App) {
-        app
-            .add_plugins(block::BlocksPlugin)
+        app.add_plugins(block::BlocksPlugin)
             .add_systems(Startup, generate_blocks)
             .add_systems(Update, chunk::update_chunks);
     }
@@ -29,13 +28,7 @@ fn generate_blocks(
     });
 
     // Define block positions
-    let block_positions = [
-        (0, 0, -2),
-        (0, 1, -2),
-        (0, 2, -2),
-        (0, 3, -2),
-        (0, 4, -2),
-    ];
+    let block_positions = [(0, 0, -2), (0, 1, -2), (0, 2, -2), (0, 3, -2), (0, 4, -2)];
 
     // Create blocks at the specified positions
     for (x, y, z) in block_positions {

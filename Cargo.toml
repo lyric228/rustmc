@@ -15,4 +15,4 @@ version = "0.15.3"
 features = []
 
 [dependencies.sysx]
-path = "../sysx"
+git = "https://github.com/lyric228/sysx"

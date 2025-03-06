@@ -24,7 +24,7 @@ pub struct BlocksPlugin;
 impl Plugin for BlocksPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<BlockRegistry>()
-           .add_systems(Update, update_blocks);
+            .add_systems(Update, update_blocks);
     }
 }
 
@@ -34,7 +34,14 @@ pub struct BlockRegistry {
 }
 
 impl BlockRegistry {
-    pub fn create_block(&mut self, x: i32, y: i32, z: i32, material: Handle<StandardMaterial>, size: f32) -> &mut Block {
+    pub fn create_block(
+        &mut self,
+        x: i32,
+        y: i32,
+        z: i32,
+        material: Handle<StandardMaterial>,
+        size: f32,
+    ) -> &mut Block {
         let position = Vec3::new(x as f32, y as f32, z as f32);
         let block = Block {
             position,
@@ -73,23 +80,23 @@ fn update_blocks(
             let translation = block.position;
             let size = block.size;
 
-            let entity = commands.spawn((
-                Mesh3d(meshes.add(Mesh::from(
-                    bevy::math::prelude::Cuboid {
+            let entity = commands
+                .spawn((
+                    Mesh3d(meshes.add(Mesh::from(bevy::math::prelude::Cuboid {
                         half_size: Vec3::splat(1.0),
-                    }
-                ))),
-                MeshMaterial3d(block.material.clone()),
-                Transform {
+                    }))),
+                    MeshMaterial3d(block.material.clone()),
+                    Transform {
                         translation,
                         scale: Vec3::splat(size),
                         ..Default::default()
                     },
-                GlobalTransform::default(),
-                Visibility::default(),
-                InheritedVisibility::default(),
-                ViewVisibility::default(),
-            )).id();
+                    GlobalTransform::default(),
+                    Visibility::default(),
+                    InheritedVisibility::default(),
+                    ViewVisibility::default(),
+                ))
+                .id();
 
             block.entity = Some(entity);
         }
