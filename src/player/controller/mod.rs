@@ -2,7 +2,7 @@ pub mod keyboard;
 pub mod mouse;
 pub mod physics;
 
-pub use keyboard::*;
+pub use keyboard::controller::*;
 pub use mouse::*;
 pub use physics::*;
 
@@ -26,10 +26,8 @@ pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     commands.entity(player).with_children(|parent| {
         parent.spawn((
-            WorldModelCamera,
             Camera3d::default(),
             Transform::from_xyz(0.0, 2.0, 2.0).looking_at(Vec3::new(0.0, 0.0, -2.0), Vec3::Y),
-            CameraSensitivity::default(),
         ));
     });
 }

@@ -1,45 +1,36 @@
-pub mod camera;
-pub mod controller;
-pub mod types;
+mod types;
+mod controller;
 
-use crate::player::controller::physics::*;
-use crate::player::controller::*;
-use crate::player::types::*;
+pub use types::*;
 use bevy::prelude::*;
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(
-            Startup,
-            (
-                |commands: Commands, asset_server: Res<AssetServer>| {
-                    spawn_text_default(commands, asset_server, 25.0, "текст");
-                },
-                spawn_player,
-                spawn_light,
-            ),
-        )
-        // Системы, которые должны работать каждый кадр
-        .add_systems(
-            Update,
-            (
-                controller::mouse_click_system,
-                controller::mouse_move_system,
-                controller::grab_mouse,
-                controller::kb_input_events,
-            ),
-        )
-        // Системы для фиксированного временного шага (физика)
-        .add_systems(FixedUpdate, (advance_physics, apply_friction))
-        // Системы для обработки ввода и интерполяции
-        .add_systems(
-            RunFixedMainLoop,
-            (
-                handle_input.in_set(RunFixedMainLoopSystem::BeforeFixedMainLoop),
-                interpolate_rendered_transform.in_set(RunFixedMainLoopSystem::AfterFixedMainLoop),
-            ),
-        );
+    fn build(&self, app: &mut App)
+    {
+        app.add_systems(Startup, (spawn_player, controller::mouse::grab_mouse))
+           .add_systems(Update, (
+               controller::physics::handle_input,
+               controller::mouse::mouse_move_system,
+               controller::mouse::mouse_click_system,
+               controller::physics::apply_friction,
+               controller::keyboard::controller::kb_input_events,
+           ))
+           .add_systems(FixedUpdate, controller::physics::advance_physics)
+           .add_systems(PostUpdate, controller::physics::interpolate_rendered_transform);
     }
+}
+
+fn spawn_player(mut commands: Commands)
+{
+    commands.spawn((
+        Player,
+        AccumulatedInput::default(),
+        Velocity::default(),
+        PhysicalTranslation(Vec3::ZERO),
+        PreviousPhysicalTranslation(Vec3::ZERO),
+        PlayerLook::default(), // Add the new component
+        Transform::from_xyz(0.0, 0.0, 0.0),
+    ));
 }

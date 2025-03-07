@@ -1,3 +1,6 @@
+pub mod controls;
+pub mod graphics;
+pub mod audio;
 pub mod keybinds;
 pub use keybinds::KeyBindings;
 

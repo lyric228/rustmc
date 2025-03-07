@@ -41,7 +41,7 @@ impl Default for KeyBindings {
     }
 }
 
-mod key_code_serde {
+pub mod key_code_serde {
     use super::*;
 
     pub fn serialize<S>(key: &KeyCode, serializer: S) -> Result<S::Ok, S::Error>
@@ -78,7 +78,7 @@ mod key_code_serde {
 }
 
 // Вместо реализации FromStr для KeyCode создаем свою функцию парсинга
-fn parse_keycode(s: &str) -> Result<KeyCode, String> {
+pub fn parse_keycode(s: &str) -> Result<KeyCode, String> {
     use KeyCode::*;
 
     match s {
