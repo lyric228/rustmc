@@ -1,9 +1,6 @@
-use crate::player::types::*;
 use bevy::prelude::*;
 
 pub mod controller;
-
-pub use controller::*;
 
 /// Система для обработки событий клавиатуры
 pub fn kb_input_events(keyboard_input: Res<ButtonInput<KeyCode>>, mut windows: Query<&mut Window>) {

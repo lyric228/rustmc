@@ -1,12 +1,12 @@
 use bevy::prelude::*;
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 use std::path::Path;
 use sysx::io::fs::BFile;
-pub mod states;
 pub mod settings;
+pub mod states;
 pub use settings::GameSettings;
-pub use sysx::SysxError;
 pub use sysx::Result;
+pub use sysx::SysxError;
 pub struct CorePlugin;
 
 impl Plugin for CorePlugin {
@@ -33,8 +33,7 @@ where
 
     // Read and parse file content
     let content = file.read()?;
-    let settings = toml::from_str(&content)
-        .map_err(|e| SysxError::AnyhowError(e.into()))?;
+    let settings = toml::from_str(&content).map_err(|e| SysxError::AnyhowError(e.into()))?;
 
     Ok(settings)
 }

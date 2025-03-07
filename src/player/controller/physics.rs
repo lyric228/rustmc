@@ -1,16 +1,18 @@
-use bevy::prelude::*;
 use crate::player::types::*;
+use bevy::prelude::*;
 
 pub fn handle_input(
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut query: Query<(
+    mut query: Query<
+        (
             &mut AccumulatedInput,
             &mut Velocity,
             &Transform,
-        &PlayerLook
-    ), With<Player>>,
-)
-{
+            &PlayerLook,
+        ),
+        With<Player>,
+    >,
+) {
     const SPEED: f32 = 16.0;
     for (mut input, mut velocity, transform, _look) in query.iter_mut() {
         // Reset input
@@ -42,7 +44,7 @@ pub fn handle_input(
         // Get direction vectors from player transform
         // Using only horizontal rotation (yaw) to determine movement direction
         let forward = Vec3::new(0.0, 0.0, -1.0); // Base "forward" vector
-        let right = Vec3::new(1.0, 0.0, 0.0);    // Base "right" vector
+        let right = Vec3::new(1.0, 0.0, 0.0); // Base "right" vector
 
         // Transform base vectors according to player rotation
         let forward_world = transform.rotation * forward;
@@ -67,8 +69,7 @@ pub fn advance_physics(
         &mut PhysicalTranslation,
         &mut PreviousPhysicalTranslation,
     )>,
-)
-{
+) {
     let delta_seconds = time.delta_secs();
     for (velocity, mut position, mut prev_position) in query.iter_mut() {
         // Remember current position
@@ -79,10 +80,7 @@ pub fn advance_physics(
     }
 }
 
-pub fn apply_friction(
-    mut query: Query<&mut Velocity>,
-)
-{
+pub fn apply_friction(mut query: Query<&mut Velocity>) {
     const FRICTION: f32 = 0.9;
     for mut velocity in query.iter_mut() {
         velocity.0 *= FRICTION;
@@ -94,8 +92,7 @@ pub fn interpolate_rendered_transform(
         &PreviousPhysicalTranslation,
         &mut Transform,
     )>,
-)
-{
+) {
     // Interpolation factor (could be time-based in more complex implementation)
     const ALPHA: f32 = 0.5;
     for (current, previous, mut transform) in query.iter_mut() {

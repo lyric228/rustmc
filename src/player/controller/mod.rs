@@ -2,10 +2,6 @@ pub mod keyboard;
 pub mod mouse;
 pub mod physics;
 
-pub use keyboard::controller::*;
-pub use mouse::*;
-pub use physics::*;
-
 use crate::player::types::*;
 use bevy::prelude::*;
 

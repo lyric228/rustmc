@@ -1,29 +1,33 @@
-mod types;
 mod controller;
+mod types;
 
-pub use types::*;
 use bevy::prelude::*;
+pub use types::*;
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
-    fn build(&self, app: &mut App)
-    {
+    fn build(&self, app: &mut App) {
         app.add_systems(Startup, (spawn_player, controller::mouse::grab_mouse))
-           .add_systems(Update, (
-               controller::physics::handle_input,
-               controller::mouse::mouse_move_system,
-               controller::mouse::mouse_click_system,
-               controller::physics::apply_friction,
-               controller::keyboard::controller::kb_input_events,
-           ))
-           .add_systems(FixedUpdate, controller::physics::advance_physics)
-           .add_systems(PostUpdate, controller::physics::interpolate_rendered_transform);
+            .add_systems(
+                Update,
+                (
+                    controller::physics::handle_input,
+                    controller::mouse::mouse_move_system,
+                    controller::mouse::mouse_click_system,
+                    controller::physics::apply_friction,
+                    controller::keyboard::controller::kb_input_events,
+                ),
+            )
+            .add_systems(FixedUpdate, controller::physics::advance_physics)
+            .add_systems(
+                PostUpdate,
+                controller::physics::interpolate_rendered_transform,
+            );
     }
 }
 
-fn spawn_player(mut commands: Commands)
-{
+fn spawn_player(mut commands: Commands) {
     commands.spawn((
         Player,
         AccumulatedInput::default(),

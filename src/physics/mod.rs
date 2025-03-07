@@ -1,11 +1,5 @@
 use bevy::prelude::*;
 
-pub mod components;
-pub mod systems;
-
-use components::*;
-use systems::*;
-
 pub struct PhysicsPlugin;
 
 impl Plugin for PhysicsPlugin {

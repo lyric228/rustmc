@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 #[derive(Serialize, Deserialize)]
 pub struct ControlsSettings {
     pub mouse_sensitivity: f32,
@@ -15,4 +14,3 @@ impl Default for ControlsSettings {
         }
     }
 }
-

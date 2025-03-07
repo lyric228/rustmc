@@ -1,13 +1,10 @@
-use bevy::prelude::*;
-use bevy::input::mouse::MouseMotion;
 use crate::player::types::*;
+use bevy::input::mouse::MouseMotion;
+use bevy::prelude::*;
 use bevy::window::CursorGrabMode;
 
 /// Handles mouse click events
-pub fn mouse_click_system(
-    buttons: Res<ButtonInput<MouseButton>>,
-    mut windows: Query<&mut Window>
-) {
+pub fn mouse_click_system(buttons: Res<ButtonInput<MouseButton>>, mut windows: Query<&mut Window>) {
     if buttons.just_pressed(MouseButton::Left) {
         if let Ok(mut window) = windows.get_single_mut() {
             window.cursor_options.grab_mode = CursorGrabMode::Locked;
@@ -62,9 +59,7 @@ pub fn mouse_move_system(
 }
 
 /// Grabs the mouse cursor for better camera control
-pub fn grab_mouse(
-    mut windows: Query<&mut Window>
-) {
+pub fn grab_mouse(mut windows: Query<&mut Window>) {
     if let Ok(mut window) = windows.get_single_mut() {
         window.cursor_options.visible = false;
         window.cursor_options.grab_mode = bevy::window::CursorGrabMode::Locked;

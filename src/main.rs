@@ -5,13 +5,9 @@ mod player;
 mod ui;
 mod world;
 
-const RESOLUTION: (f32, f32) = (
-    1280.,
-    720.,
-);
+const RESOLUTION: (f32, f32) = (1280., 720.);
 
-fn main()
-{
+fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins
